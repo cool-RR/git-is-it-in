@@ -1,0 +1,39 @@
+#!/bin/sh
+# Copyright Ram Rachum 2017, MIT License
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "Usage: git is-it-in ref1 ref2"
+  echo "This will tell you whether ref1 is an ancestor of ref2 or vice versa."
+  echo "This is useful when you want to check whether a commit has been merged into your branch."
+  echo "Pro tip: If used with just one argument, it uses HEAD for the second ref."
+  exit 1
+fi
+
+ref_1="$1"
+
+if [ -z "$2" ]; then
+  ref_2="HEAD"
+else
+  ref_2="$2"
+fi
+
+ref_1_sha="$(git rev-parse --verify "$ref_1")"
+ref_2_sha="$(git rev-parse --verify "$ref_2")"
+
+if [ "$ref_1_sha" == "$ref_2_sha" ]; then
+    echo "$ref_1 and $ref_2 are the same commit"
+    exit 0
+fi
+
+merge_base_sha="$(git merge-base "$ref_1_sha" "$ref_2_sha")"
+
+if [ "$merge_base_sha" == "$ref_1_sha" ]; then
+    echo "$ref_1 is an ancestor of $ref_2"
+elif [ "$merge_base_sha" == "$ref_2_sha" ]; then
+    echo "$ref_2 is an ancestor of $ref_1"
+else
+    echo "$ref_1 is NOT an ancestor of $ref_2"
+    echo "$ref_2 is NOT an ancestor of $ref_1"
+fi
