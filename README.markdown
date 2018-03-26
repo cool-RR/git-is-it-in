@@ -36,3 +36,7 @@ For quick access, add the following snippet to your `~/.gitconfig` file:
         i = is-it-in
         
 Now you can use `git i` instead of `git is-it-in`.
+
+------------
+
+`git is-it-in` was created by Ram Rachum. [Website](https://ram.rachum.com/) [Blog](http://blog.ram.rachum.com/) [Development services in Python and Django](https://chipmunkdev.com)
